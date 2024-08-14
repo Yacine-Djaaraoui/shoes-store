@@ -35,10 +35,10 @@ const bucket = admin.storage().bucket();
 
 // Database connection with MongoDB
 try {
-  await mongoose.connect(
-    "mongodb+srv://ydjaaraoui:mimoamine179@cluster0.xznkutt.mongodb.net/e-commerce",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  );
+  await mongoose.connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
   console.log("Connected to MongoDB");
 } catch (error) {
   console.error("Error connecting to MongoDB:", error.message);
