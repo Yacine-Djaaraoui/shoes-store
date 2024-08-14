@@ -23,7 +23,12 @@ const port = 4000;
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173",
+  optionsSuccessStatus: 200, // For legacy browser support
+};
+app.use(cors(corsOptions));
+// app.use(cors());
 import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
 
 admin.initializeApp({
