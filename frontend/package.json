@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "vercel-build": "react-scripts build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",

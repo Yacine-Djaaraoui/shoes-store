@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faInstagram, faTiktok } from "@fortawesome/free-brands-svg-icons";
-import LogoImg from "../../public/images/Logoo.png";
+// import LogoImg from "../../public/images/Logoo.png";
 import { Link } from "react-router-dom";
 import LogoWhite from "../../public/images/Untitled-4.png";
 
