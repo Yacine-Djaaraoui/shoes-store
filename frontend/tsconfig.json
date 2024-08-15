@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     // ...
+    "skipLibCheck": true,
+    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -15,6 +17,5 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ],
- 
+  ]
 }
