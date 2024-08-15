@@ -28,7 +28,7 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   const [someCondition, setsomeCondition] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:4000/allproducts")
+    fetch("https://shoes-store-api.vercel.app/allproducts")
       .then((response) => response.json())
       .then((data) => setAllproducts(data));
   });

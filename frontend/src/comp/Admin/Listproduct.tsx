@@ -16,7 +16,9 @@ const Listproduct: React.FC = () => {
 
   const fetchInfo = async () => {
     try {
-      const response = await fetch("http://localhost:4000/allproducts");
+      const response = await fetch(
+        "https://shoes-store-api.vercel.app/allproducts"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -35,7 +37,7 @@ const Listproduct: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   const removeProduct = async (id) => {
-    await fetch("http://localhost:4000/removeproduct", {
+    await fetch("https://shoes-store-api.vercel.app/removeproduct", {
       method: "POST",
       headers: {
         Accept: "application/json",

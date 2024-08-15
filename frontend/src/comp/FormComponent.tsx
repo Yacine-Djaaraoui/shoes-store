@@ -130,7 +130,7 @@ const FormComponent = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:4000/algerian-cities/${
+        `https://shoes-store-api.vercel.app/algerian-cities/${
           wilaya.id - 10 < 0 ? "0" + wilaya.id : wilaya.id
         }`
       );

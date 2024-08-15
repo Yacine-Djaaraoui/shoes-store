@@ -14,10 +14,13 @@ const LoginAdmin: React.FC = () => {
   useAuth();
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/admin/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://shoes-store-api.vercel.app/admin/login",
+        {
+          email,
+          password,
+        }
+      );
       const token = response.data.token;
       localStorage.setItem("adminToken", token); // Store token in localStorage
 

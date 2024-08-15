@@ -24,7 +24,7 @@ const app = express();
 
 app.use(express.json());
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://ovastore-alpha.vercel.app",
   optionsSuccessStatus: 200, // For legacy browser support
 };
 app.use(cors(corsOptions));

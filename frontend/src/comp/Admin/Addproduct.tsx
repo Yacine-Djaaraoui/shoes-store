@@ -102,7 +102,7 @@ const Addproduct: React.FC = () => {
       formData.append("productImages", file);
     });
 
-    await fetch("http://localhost:4000/upload", {
+    await fetch("https://shoes-store-api.vercel.app/upload", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -117,7 +117,7 @@ const Addproduct: React.FC = () => {
     if (responseData.success) {
       product.images = responseData.image_urls; // Store array of image URLs
       console.log(product);
-      await fetch("http://localhost:4000/addproduct", {
+      await fetch("https://shoes-store-api.vercel.app/addproduct", {
         method: "POST",
         headers: {
           Accept: "application/json",
