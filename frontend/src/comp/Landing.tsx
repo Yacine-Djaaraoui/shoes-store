@@ -4,11 +4,24 @@ import Logo from "../../public/images/logocolor2.png";
 import Offre from "../../public/images/white.png";
 import { Button } from "../components/ui/button";
 import Logowat from "../../public/images/Group 193.png";
+import Logowat2 from "../../public/images/Group 1933.png";
 const Landing = () => {
   return (
     <>
       <>
-        <div className="landing relative bg-button-color-100 pb-6 h-custom-height before:bg-hero-pattern before:absolute before:z-10 before:opacity-15 before:w-full before:h-full  w-full flex justfity-center items-center">
+        <div className="landing relative overflow-hidden bg-button-color-100 pb-6 h-custom-height w-full flex justfity-center items-center">
+          {/* <img
+            src={Logowat}
+            alt=""
+            
+            className=" absolute z-10 opacity-10    h-screen right-1/2 translate-x-1/2 top-0  "
+          /> */}
+          {/* <img
+            src={Logowat2}
+            alt=""
+            
+            className=" absolute z-10 opacity-15 w-fit h-fit right-1/2 translate-x-1/2 -bottom-[380px]"
+          /> */}
           <div className="container absolute z-30 w-full h-full -top-1/2 right-1/2 translate-x-1/2 translate-y-1/2 flex justify-between  flex-wrap items-center ">
             <div className="sm:text-xl flex flex-col max-lg:ml-auto max-lg:mr-auto items-center justify-center max-sm:self-end w-fit">
               {/* <h2 className="text-primary-color-100 font-bold mb-3 text-right">

@@ -25,7 +25,7 @@ const Footer = () => {
             تواصل معنا
           </p>
           <div className="flex container sm:flex-row justify-between items-center ">
-            <div className="flex justify-center items-center gap-3 sm:gap-6 order-2 mr-2">
+            <div className="flex justify-center items-center gap-5 sm:gap-6 order-2 mr-2">
               <Link
                 to={
                   "https://web.facebook.com/profile.php?id=100066153776716&locale=fr_FR"
