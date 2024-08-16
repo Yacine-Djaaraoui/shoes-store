@@ -37,7 +37,7 @@ const Product = () => {
   //     : "";
   const [productOrder, setProductOrder] = useState<ProductDetails>({
     product: productName,
-    selectedColor: filteredProducts[0].colors[0],
+    selectedColor: "white",
     selectedSize: "",
     selectedAmount: 1,
   });
