@@ -37,8 +37,8 @@ const Product = () => {
   //     : "";
   const [productOrder, setProductOrder] = useState<ProductDetails>({
     product: productName,
-    selectedColor: "",
-    selectedSize: "",
+    selectedColor: filteredProducts[0].colors[0],
+    selectedSize: filteredProducts[0].sizes[0],
     selectedAmount: 1,
   });
 
@@ -230,7 +230,7 @@ const Product = () => {
 
   return (
     <div>
-      {filteredProducts.map((item, index) => (
+      {filteredProducts[0].map((item, index) => (
         <div className=" container flex justify-between w-full flex-col md:flex-row-reverse items-center">
           {" "}
           <div className="bg-beje bg-opacity-35 px-4 lg:px-8 py-4 md:pb-10 md:pt-7 text-center rounded-b-3xl w-full md:w-[45%] mb-2">
