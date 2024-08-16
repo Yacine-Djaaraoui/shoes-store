@@ -170,25 +170,40 @@ const Products = () => {
           </Button>
         ) : null}
         {moreProducts ? (
-          <ul className="cards mt-12   grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4 gap-y-[90px] gap-x-4 mb-24 lg:mb-28">
+          <ul
+            className={`cards  mt-12  ${
+              nonFavoriteProducts.length > 3
+                ? "grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4 "
+                : nonFavoriteProducts.length > 2
+                ? "grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  xl:grid-cols-3"
+                : nonFavoriteProducts.length === 2
+                ? "grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-2  xl:grid-cols-2"
+                : nonFavoriteProducts.length === 1
+                ? "grid grid-cols-1  sm:grid-cols-1 lg:grid-cols-1  xl:grid-cols-1"
+                : ""
+            }  mb-24 lg:mb-28  gap-y-[90px] gap-x-6 `}
+          >
             {nonFavoriteProducts.map((item, index) => (
               <li key={index} className="">
                 <div className="frame relative h-full rounded-3xl  before:bg-secondary-color before:rounded-xl before:h-28 before:w-full before:absolute before:-bottom-[75px] before:right-0 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] before:shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
                   {isLoading[index + favoriteItems.length] ? (
                     <Link to={`/product/${item.name}`}>
-                      {
+                      {(
                         <img
-                          onLoad={() => {
-                            const lld = [...isLoading];
-                            lld[index + favoriteItems.length] =
-                              isLoading[index + favoriteItems.length];
-                            setIsLoading(lld);
-                          }}
+                          // onLoad={() => {
+                          //   const lld = [...isLoading];
+                          //   lld[index] = isLoading[index];
+                          //   setIsLoading(lld);
+                          // }}
                           src={item.images[0]}
                           alt="#"
                           className="  relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
                         />
-                      }
+                      ) || (
+                        <div className="flex flex-col space-y-3">
+                          <Skeleton className="h-[200px] w-ull rounded-xl" />
+                        </div>
+                      )}
                     </Link>
                   ) : (
                     <div className="flex flex-col space-y-3">
