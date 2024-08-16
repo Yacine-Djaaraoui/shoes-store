@@ -530,8 +530,12 @@ const Product = () => {
           ))}
         </div>
       ) : (
-        <div className="h-[600px] container flex justify-center items-center">
-          <Skeleton className="h-[600px] container m-3 rounded-xl" />
+        <div className="flex  space-y-3">
+          <Skeleton className="h-[300px] w-[160px] rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[160px]" />
+            <Skeleton className="h-4 w-[100px]" />
+          </div>
         </div>
       )}
     </div>
