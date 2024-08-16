@@ -52,13 +52,9 @@ const Products = () => {
   //     removeFromPanier(item.id);
   //   }
   // };
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (filteredProducts.length > 0) {
-      setIsLoading(false);
-    }
-  }, [filteredProducts]);
+  const [isLoading, setIsLoading] = useState<boolean[]>(
+    AllProducts.map(() => false)
+  );
   return (
     <>
       <div className="filteredProducts my-[60px] container text-center">
@@ -82,13 +78,30 @@ const Products = () => {
               {filteredProducts.map((item, index) => (
                 <li key={index} className=" max-w-[300px]">
                   <div className="frame relative h-full rounded-3xl   before:bg-secondary-color before:rounded-xl before:h-28 before:w-full before:absolute before:-bottom-[75px] before:right-0 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] before:shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
-                    <Link to={`/product/${item.name}`}>
-                      <img
-                        src={item.images[0]}
-                        alt="#"
-                        className="  relative before:absolute before:bg-white before:top-0 before:h-full before:right-0 before:w-full z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
-                      />
-                    </Link>
+                    {isLoading[index] ? (
+                      <Link to={`/product/${item.name}`}>
+                        {
+                          <img
+                            onLoad={() => {
+                              const lld = [...isLoading];
+                              lld[index] = isLoading[index];
+                              setIsLoading(lld);
+                            }}
+                            src={item.images[0]}
+                            alt="#"
+                            className="  relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
+                          />
+                        }
+                      </Link>
+                    ) : (
+                      <div className="flex flex-col space-y-3">
+                        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-[250px]" />
+                          <Skeleton className="h-4 w-[200px]" />
+                        </div>
+                      </div>
+                    )}
 
                     <h5 className="absolute top-0 z-10 right-1/2 translate-x-1/2 bg-grey px-2 text-xs rounded-lg pb-0.5  ">
                       {" "}
@@ -136,7 +149,7 @@ const Products = () => {
           ) : (
             <svg
               aria-hidden="true"
-              className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-color-100 mt-7"
+              className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-color-100 mt-16"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -167,13 +180,31 @@ const Products = () => {
             {nonFavoriteProducts.map((item, index) => (
               <li key={index} className="">
                 <div className="frame relative h-full rounded-3xl  before:bg-secondary-color before:rounded-xl before:h-28 before:w-full before:absolute before:-bottom-[75px] before:right-0 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] before:shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
-                  <Link to={`/product/${item.name}`}>
-                    <img
-                      src={item.images[0]}
-                      alt="#"
-                      className="  relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
-                    />
-                  </Link>
+                  {isLoading[index + favoriteItems.length] ? (
+                    <Link to={`/product/${item.name}`}>
+                      {
+                        <img
+                          onLoad={() => {
+                            const lld = [...isLoading];
+                            lld[index + favoriteItems.length] =
+                              isLoading[index + favoriteItems.length];
+                            setIsLoading(lld);
+                          }}
+                          src={item.images[0]}
+                          alt="#"
+                          className="  relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
+                        />
+                      }
+                    </Link>
+                  ) : (
+                    <div className="flex flex-col space-y-3">
+                      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-[250px]" />
+                        <Skeleton className="h-4 w-[200px]" />
+                      </div>
+                    </div>
+                  )}
 
                   <h5 className="absolute top-0 z-10 right-1/2 translate-x-1/2 bg-grey px-2 text-xs rounded-lg pb-0.5  ">
                     {" "}
