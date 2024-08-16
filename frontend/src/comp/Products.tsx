@@ -78,30 +78,24 @@ const Products = () => {
               {filteredProducts.map((item, index) => (
                 <li key={index} className=" max-w-[300px]">
                   <div className="frame relative h-full rounded-3xl   before:bg-secondary-color before:rounded-xl before:h-28 before:w-full before:absolute before:-bottom-[75px] before:right-0 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] before:shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
-                    {isLoading[index] ? (
-                      <Link to={`/product/${item.name}`}>
-                        {
-                          <img
-                            onLoad={() => {
-                              const lld = [...isLoading];
-                              lld[index] = isLoading[index];
-                              setIsLoading(lld);
-                            }}
-                            src={item.images[0]}
-                            alt="#"
-                            className="  relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
-                          />
-                        }
-                      </Link>
-                    ) : (
-                      <div className="flex flex-col space-y-3">
-                        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-                        <div className="space-y-2">
-                          <Skeleton className="h-4 w-[250px]" />
-                          <Skeleton className="h-4 w-[200px]" />
+                    <Link to={`/product/${item.name}`}>
+                      {(
+                        <img
+                          // onLoad={() => {
+                          //   const lld = [...isLoading];
+                          //   lld[index] = isLoading[index];
+                          //   setIsLoading(lld);
+                          // }}
+                          src={item.images[0]}
+                          alt="#"
+                          className="  relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
+                        />
+                      ) || (
+                        <div className="flex flex-col space-y-3">
+                          <Skeleton className="h-[200px] w-ull rounded-xl" />
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </Link>
 
                     <h5 className="absolute top-0 z-10 right-1/2 translate-x-1/2 bg-grey px-2 text-xs rounded-lg pb-0.5  ">
                       {" "}
