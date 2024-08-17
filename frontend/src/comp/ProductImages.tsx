@@ -43,7 +43,11 @@ export function ProductImages({ images }: images) {
             <div className="">
               <Card>
                 <CardContent className="flex flex-col aspect-square items-center justify-center p-0 ">
-                  <img src={image} alt="" className="w-full h-full  " />
+                  <img
+                    src={image}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
                 </CardContent>
               </Card>
             </div>
