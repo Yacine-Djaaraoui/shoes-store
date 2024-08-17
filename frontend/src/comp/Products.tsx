@@ -88,7 +88,7 @@ const Products = () => {
                           // }}
                           src={item.images[0]}
                           alt="#"
-                          className="   relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
+                          className="   relative z-0 top-0 w-full h-full max-h-[400px] right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
                         />
                       ) || (
                         <div className="flex flex-col space-y-3">
