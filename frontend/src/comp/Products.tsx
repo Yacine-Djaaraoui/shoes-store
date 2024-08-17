@@ -64,13 +64,13 @@ const Products = () => {
           {filteredProducts.length > 0 ? (
             <ul
               className={`cards  mt-12  ${
-                nonFavoriteProducts.length > 3
-                  ? "grid grid-cols-2  sm:grid-cols-2  lg:grid-cols-3  xl:grid-cols-4 "
-                  : nonFavoriteProducts.length > 2
-                  ? "grid grid-cols-2  sm:grid-cols-2  lg:grid-cols-3  xl:grid-cols-3"
-                  : nonFavoriteProducts.length === 2
+                filteredProducts.length > 3
+                  ? "grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 "
+                  : filteredProducts.length > 2
+                  ? "grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-3"
+                  : filteredProducts.length === 2
                   ? "grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-2  xl:grid-cols-2"
-                  : nonFavoriteProducts.length === 1
+                  : filteredProducts.length === 1
                   ? "grid grid-cols-1  sm:grid-cols-1 lg:grid-cols-1  xl:grid-cols-1"
                   : ""
               }  mb-24 lg:mb-28  gap-y-[90px] gap-x-6 `}

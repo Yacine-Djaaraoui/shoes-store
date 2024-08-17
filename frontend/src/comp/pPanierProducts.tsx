@@ -74,7 +74,7 @@ const PanierProducts = () => {
                     <img
                       src={item.selectedImg}
                       alt=""
-                      className="h-[120px] w-[120px] ml-2 "
+                      className="h-[120px] w-[120px] ml-2  object-cover"
                     />
                     <div className="text-[#444] text-sm">
                       <p> {item.name} </p>

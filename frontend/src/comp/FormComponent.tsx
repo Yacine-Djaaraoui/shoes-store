@@ -499,7 +499,7 @@ ${item.selectedAmont}")`;
                     <img
                       src={item.selectedImg}
                       alt=""
-                      className="h-[120px] w-[120px] ml-2 "
+                      className="h-[120px] w-[120px] ml-2 object-cover"
                     />
                     <div className="text-[#444] text-sm">
                       <p> {item.name} </p>
@@ -577,7 +577,11 @@ ${item.selectedAmont}")`;
                 <DialogContent className="sm:max-w-[425px] ">
                   <DialogHeader className="">
                     <DialogTitle className="flex items-center justify-center w-full">
-                      <img src={Logo} alt="" className="h-[120px] " />
+                      <img
+                        src={Logo}
+                        alt=""
+                        className="h-[120px] object-cover "
+                      />
                     </DialogTitle>
                     <DialogDescription className="text-center  text-black font-semibold ">
                       تم ارسال طلب المنتج بنجاح نشكرك على ثقتك بمتجرنا ، سيتم
