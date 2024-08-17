@@ -11,8 +11,8 @@ module.exports = {
   theme: {
     keyframes: {
       spp: {
-        "0%, 100%": { transform: "translateY(0)" },
-        "50%": { transform: "translateY(40px)" },
+        "0%, 100%": { transform: "translateY(-20px)" },
+        "50%": { transform: "translateY(20px)" },
       },
 
       spin: {
