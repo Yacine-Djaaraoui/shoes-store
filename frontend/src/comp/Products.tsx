@@ -122,9 +122,9 @@ const Products = () => {
                       </svg>
                     </div>
 
-                    <h5 className="absolute bottom-0.5 z-10 right-1/2 w-fit translate-x-1/2 bg-grey font-semibold px-2 text-md rounded-xl  ">
+                    <h5 className="absolute flex justify-center items-center bottom-0.5 z-10 right-1/2  translate-x-1/2 bg-grey font-semibold px-2 text-md rounded-xl  ">
                       {" "}
-                      {item.price} DA{" "}
+                      {item.price} <p>DA</p>
                     </h5>
                     <h5 className="absolute -bottom-8 z-10 right-1/2  translate-x-1/2 font-bold px-1 text-md w-full rounded-xl  ">
                       {" "}
