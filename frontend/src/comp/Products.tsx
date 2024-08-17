@@ -59,7 +59,7 @@ const Products = () => {
     <>
       <div className="filteredProducts my-[60px] container text-center">
         <h3 className="font-bold mb-1  text-xl"> أفضل العروض</h3>
-        <p> التوصيل متوفر لجميع الولايات  fdf الجزائرية</p>
+        <p> التوصيل متوفر لجميع الولايات الجزائرية</p>
         <div className="flex justify-center items-center w-full">
           {filteredProducts.length > 0 ? (
             <ul
