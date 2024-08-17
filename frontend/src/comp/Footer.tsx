@@ -81,7 +81,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="h-[0.5px] w-full bg-[#888] absolute bottom-8"></div>
-        <div className=" container right-1/2 translate-x-1/2 absolute text-center bottom-1.5 text-white text-sm"> All Right Reserved.</div>
+        <div className=" container right-1/2 translate-x-1/2 absolute text-center bottom-1.5 text-white text-sm"> All Right Reserved</div>
       </div>
 
     </div>
