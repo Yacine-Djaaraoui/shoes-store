@@ -68,7 +68,7 @@ const Footer = () => {
                 />
               </Link>
             </div>
-            <div className="flex justify-center items-center gap-2 sm:gap-3.5 order-3 text-md sm:text-xl -mr-1 ">
+            <div className="flex justify-center items-center gap-1 sm:gap-3.5 order-3 text-md sm:text-xl -mr-1 ">
               <FontAwesomeIcon
                 icon={faPhone}
                 className="text-white text-md sm:text-xl "

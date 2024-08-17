@@ -530,9 +530,11 @@ const Product = () => {
           ))}
         </div>
       ) : (
-        <div className=" container flex flex-col lg:flex-row-reverse justify-center items-center space-y-3 space-x-3">
+        <div className="  container flex flex-col lg:flex-row-reverse mt-8 justify-between  items-center space-y-3 space-x-3">
           <Skeleton className="h-[350px] w-full lg:w-1/2 rounded-xl" />
           <div className="space-y-2">
+            <Skeleton className="h-4 w-[160px]" />
+            <Skeleton className="h-4 w-[100px]" />
             <Skeleton className="h-4 w-[160px]" />
             <Skeleton className="h-4 w-[100px]" />
           </div>

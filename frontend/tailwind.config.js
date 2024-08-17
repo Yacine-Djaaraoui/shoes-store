@@ -9,6 +9,22 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    keyframes: {
+      spp: {
+        "0%, 100%": { transform: "translateY(0)" },
+        "50%": { transform: "translateY(40px)" },
+      },
+
+      spin: {
+        "0%": { transform: "rotate(0deg)" },
+        "100%": { transform: "rotate(360deg)" },
+      },
+    },
+
+    animation: {
+      fog: "spp  3.5s linear infinite alternate",
+      spin: " spin 1s linear infinite",
+    },
     container: {
       center: true,
       screens: {
@@ -23,6 +39,15 @@ module.exports = {
       },
     },
     extend: {
+      keyframes: {
+        spp: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(40px)" },
+        },
+      },
+      animation: {
+        fog: "spp 1s ease infinite alternate",
+      },
       gridTemplateColumns: {
         // Simple 16 column grid
         auto: "repeat(auto-fill, minmax(300px, 1fr))",
