@@ -43,11 +43,7 @@ export function ProductImages({ images }: images) {
             <div className="">
               <Card>
                 <CardContent className="flex flex-col aspect-square items-center justify-center p-0 ">
-                  <img
-                    src={image}
-                    alt=""
-                    className="w-full mb-2  hover:scale-125 ease-in duration-200"
-                  />
+                  <img src={image} alt="" className="w-full mb-2 " />
                 </CardContent>
               </Card>
             </div>
