@@ -19,8 +19,8 @@ const Footer = () => {
   };
   return (
     <div>
-      <div className=" w-full h-[250px]  bg-button-color-100 mt-16 md:mt-28 lg:mt-44 text-center rounded-3xl relative before:bg-hero-pattern before:absolute before:z-10 before:opacity-15 before:w-full before:h-full before:right-1/2 before:top-0 before:translate-x-1/2   rounded-b-none py-3  shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] ">
-        <div className=" absolute z-50 text-center flex flex-col justify-center items-center top-0 right-0 w-full h-full ">
+      <div className=" w-full h-[300px]  bg-button-color-100 mt-16 md:mt-28 lg:mt-44 text-center rounded-3xl relative before:bg-hero-pattern before:absolute before:z-10 before:opacity-15 before:w-full before:h-full before:right-1/2 before:top-0 before:translate-x-1/2   rounded-b-none py-3  shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] ">
+        <div className=" absolute pb-5  z-50 text-center flex flex-col justify-center items-center top-0 right-0 w-full h-full ">
           <p className="text-white font-extrabold text-xl sm:text-2xl mb-3 mt-6">
             تواصل معنا
           </p>
@@ -80,7 +80,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        <div className="h-[0.5px] w-full bg-[#888] absolute bottom-8"></div>
+        <div className=" container right-1/2 translate-x-1/2 absolute text-center bottom-1.5 text-white text-sm"> All Right Reserved</div>
       </div>
+
     </div>
   );
 };
