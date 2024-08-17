@@ -9,76 +9,11 @@ import {
 } from "../components/ui/carousel";
 import { useState, useEffect, useCallback } from "react";
 import { ShopContext } from "./ShopContext";
+import ReactImageMagnify from "react-image-magnify";
 
 interface ImagesProps {
   images: string[];
 }
-
-interface ImageMagnifierProps {
-  src: string;
-  magnifierHeight?: number;
-  magnifierWidth?: number;
-  zoomLevel?: number;
-}
-
-const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
-  src,
-  magnifierHeight = 150,
-  magnifierWidth = 150,
-  zoomLevel = 2,
-}) => {
-  const [showMagnifier, setShowMagnifier] = useState(false);
-  const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 });
-  const imgRef = React.useRef<HTMLImageElement | null>(null);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { top, left } = imgRef.current!.getBoundingClientRect();
-    const x = e.pageX - left - window.scrollX;
-    const y = e.pageY - top - window.scrollY;
-
-    setMagnifierPosition({ x, y });
-  };
-
-  return (
-    <div
-      className="relative w-full h-full"
-      onMouseEnter={() => setShowMagnifier(true)}
-      onMouseLeave={() => setShowMagnifier(false)}
-      onMouseMove={handleMouseMove}
-    >
-      <img
-        src={src}
-        alt="Magnified"
-        ref={imgRef}
-        className="w-full h-full object-cover"
-      />
-      {showMagnifier && (
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            height: magnifierHeight,
-            width: magnifierWidth,
-            top: magnifierPosition.y - magnifierHeight / 2,
-            left: magnifierPosition.x - magnifierWidth / 2,
-            backgroundColor: "rgba(0,0,0,0.1)",
-            border: "1px solid lightgray",
-            backgroundImage: `url('${src}')`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: `${imgRef.current!.width * zoomLevel}px ${
-              imgRef.current!.height * zoomLevel
-            }px`,
-            backgroundPositionX: `${
-              -magnifierPosition.x * zoomLevel + magnifierWidth / 2
-            }px`,
-            backgroundPositionY: `${
-              -magnifierPosition.y * zoomLevel + magnifierHeight / 2
-            }px`,
-          }}
-        />
-      )}
-    </div>
-  );
-};
 
 export function ProductImages({ images }: ImagesProps) {
   const [imageSelected, setImageSelected] = useState(0);
@@ -108,7 +43,22 @@ export function ProductImages({ images }: ImagesProps) {
           <CarouselItem key={index}>
             <Card>
               <CardContent className="flex flex-col aspect-square items-center justify-center p-0">
-                <ImageMagnifier src={image} zoomLevel={2} />
+                <ReactImageMagnify
+                  {...{
+                    smallImage: {
+                      alt: `Product Image ${index + 1}`,
+                      isFluidWidth: true,
+                      src: image,
+                    },
+                    largeImage: {
+                      src: image,
+                      width: 1200,
+                      height: 1200,
+                    },
+                    enlargedImageContainerStyle: { zIndex: 9 },
+                    lensStyle: { backgroundColor: "rgba(0,0,0,.3)" },
+                  }}
+                />
               </CardContent>
             </Card>
           </CarouselItem>
