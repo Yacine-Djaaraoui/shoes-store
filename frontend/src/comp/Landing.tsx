@@ -55,7 +55,7 @@ const Landing = () => {
                   عرض التفاصيل{" "}
                 </Button>
               </div> */}
-              <img src={shoes} alt="" className=" max-lg:h-[390px] " />
+              <img src={shoes} alt="" className=" max-lg:h-[390px] animate-fog " />
             </div>
           </div>
         </div>
