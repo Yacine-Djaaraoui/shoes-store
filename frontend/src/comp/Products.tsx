@@ -201,8 +201,7 @@ const Products = () => {
                         />
                       ) || (
                         <div className="flex flex-col space-y-3">
-                          <Skeleton className="h-[200px] w-ull rounded-xl" />
-                        </div>
+                          <Skeleton className="h-[200px] w-ull rounded-xl" />                        </div>
                       )}
                     </Link>
                   ) : (
