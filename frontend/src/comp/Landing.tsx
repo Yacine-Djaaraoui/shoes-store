@@ -30,7 +30,7 @@ const Landing = () => {
               </h2> */}
               <img
                 src={Logo}
-                className="  cursor-pointer object-contain h-[150px]  lg:h-[200px]"
+                className=" cursor-pointer object-contain h-[150px]  lg:h-[200px]"
                 alt="#"
               />
               <h2 className="text-beje font-bold  text-md">
@@ -55,7 +55,11 @@ const Landing = () => {
                   عرض التفاصيل{" "}
                 </Button>
               </div> */}
-              <img src={shoes} alt="" className=" max-lg:h-[390px] animate-fog " />
+              <img
+                src={shoes}
+                alt=""
+                className="  max-lg:h-[390px] animate-fog "
+              />
             </div>
           </div>
         </div>
