@@ -46,7 +46,7 @@ export function ProductImages({ images }: images) {
                   <img
                     src={image}
                     alt=""
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover -mb-0.5"
                   />
                 </CardContent>
               </Card>

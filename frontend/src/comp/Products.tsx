@@ -173,9 +173,9 @@ const Products = () => {
           <ul
             className={`cards  mt-12  ${
               nonFavoriteProducts.length > 3
-                ? "grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4 "
+                ? "grid grid-cols-2  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4 "
                 : nonFavoriteProducts.length > 2
-                ? "grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-3  xl:grid-cols-3"
+                ? "grid grid-cols-2  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3  xl:grid-cols-3"
                 : nonFavoriteProducts.length === 2
                 ? "grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-2  xl:grid-cols-2"
                 : nonFavoriteProducts.length === 1
