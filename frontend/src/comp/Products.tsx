@@ -80,18 +80,16 @@ const Products = () => {
                   <div className="frame relative h-full rounded-3xl overflow-hidden  before:bg-secondary-color before:rounded-xl before:h-28 before:w-full before:absolute before:-bottom-[75px] before:right-0 shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] before:shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)]">
                     <Link to={`/product/${item.name}`}>
                       {(
-                        <div className="relative h-full overflow-hidden z-0 top-0 w-full  right-1/2 translate-x-1/2">
-                          <img
-                            // onLoad={() => {
-                            //   const lld = [...isLoading];
-                            //   lld[index] = isLoading[index];
-                            //   setIsLoading(lld);
-                            // }}
-                            src={item.images[0]}
-                            alt="#"
-                            className="  hover:scale-125 ease-in duration-200  z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
-                          />
-                        </div>
+                        <img
+                          // onLoad={() => {
+                          //   const lld = [...isLoading];
+                          //   lld[index] = isLoading[index];
+                          //   setIsLoading(lld);
+                          // }}
+                          src={item.images[0]}
+                          alt="#"
+                          className="  hover:scale-125 ease-in duration-200 relative z-0 top-0 w-full h-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
+                        />
                       ) || (
                         <div className="flex flex-col space-y-3">
                           <Skeleton className="h-[200px] w-ull rounded-xl" />
