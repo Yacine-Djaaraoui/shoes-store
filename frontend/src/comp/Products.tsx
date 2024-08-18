@@ -73,7 +73,7 @@ const Products = () => {
                   : filteredProducts.length === 1
                   ? "grid grid-cols-1  sm:grid-cols-1 lg:grid-cols-1  xl:grid-cols-1"
                   : ""
-              }  mb-24 lg:mb-28  gap-y-[90px] gap-x-6 `}
+              }  mb-24 lg:mb-28  gap-y-[90px] gap-x-3 md:gap-x-6 `}
             >
               {filteredProducts.map((item, index) => (
                 <li key={index} className=" max-w-[300px] max-h-[400px] ">
