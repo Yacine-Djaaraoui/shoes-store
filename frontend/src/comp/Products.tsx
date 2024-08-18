@@ -73,7 +73,7 @@ const Products = () => {
                   : filteredProducts.length === 1
                   ? "grid grid-cols-1  sm:grid-cols-1 lg:grid-cols-1  xl:grid-cols-1"
                   : ""
-              }  mb-24 lg:mb-28  gap-y-[90px] gap-x-3 md:gap-x-6 w-full  `}
+              }  mb-24 lg:mb-28  gap-y-[90px] gap-x-3 md:gap-x-6 max-sm:w-full  `}
             >
               {filteredProducts.map((item, index) => (
                 <li key={index} className="  max-w-[300px] max-h-[400px] ">
@@ -88,7 +88,7 @@ const Products = () => {
                           // }}
                           src={item.images[0]}
                           alt="#"
-                          className="   relative z-0 top-0 max-sm:h-[150px] h-[242px] w-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
+                          className="   relative z-0 top-0 max-sm:h-[162px] h-[242px] w-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
                         />
                       ) || (
                         <div className="flex flex-col space-y-3">
@@ -197,7 +197,7 @@ const Products = () => {
                           // }}
                           src={item.images[0]}
                           alt="#"
-                          className="   relative z-0 top-0 max-sm:h-[150px] h-[242px] w-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
+                          className="   relative z-0 top-0 max-sm:h-[162px] h-[242px] w-full right-1/2 translate-x-1/2   object-cover  rounded-3xl border border-grey "
                         />
                       ) || (
                         <div className="flex flex-col space-y-3">
