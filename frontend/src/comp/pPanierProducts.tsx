@@ -144,7 +144,7 @@ const PanierProducts = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-center  flex-col items-center py-6 container">
+        <div className="flex justify-center h-screen flex-col items-center py-6 container">
           <svg
             className={` h-32 rounded-full p-[0px] text-black `}
             viewBox="-0.5 0 25 25"

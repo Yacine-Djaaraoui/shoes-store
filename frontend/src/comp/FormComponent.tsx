@@ -174,7 +174,7 @@ const FormComponent = () => {
 
     // Replace with your Google Sheets API endpoint
     const endpoint =
-      "https://sheet.best/api/sheets/2f20590c-596c-4434-badd-3fa714b66b9c";
+      "https://sheet.best/api/sheets/59fd68b9-1eba-43b0-8427-2df892786071";
     if (
       name === "" ||
       wilaya.name === "" ||
@@ -499,7 +499,7 @@ ${item.selectedAmont}")`;
                     <img
                       src={item.selectedImg}
                       alt=""
-                      className="h-[120px] w-[120px] ml-2 object-cover"
+                      className="h-[120px] w-[120px] ml-2 "
                     />
                     <div className="text-[#444] text-sm">
                       <p> {item.name} </p>
@@ -577,11 +577,7 @@ ${item.selectedAmont}")`;
                 <DialogContent className="sm:max-w-[425px] ">
                   <DialogHeader className="">
                     <DialogTitle className="flex items-center justify-center w-full">
-                      <img
-                        src={Logo}
-                        alt=""
-                        className="h-[120px] object-cover "
-                      />
+                      <img src={Logo} alt="" className="h-[120px] " />
                     </DialogTitle>
                     <DialogDescription className="text-center  text-black font-semibold ">
                       تم ارسال طلب المنتج بنجاح نشكرك على ثقتك بمتجرنا ، سيتم
