@@ -352,13 +352,13 @@ ${item.selectedAmont}")`;
                       className="  w-full  pr-2 text-md"
                     >
                       <div className="flex items-center w-full justify-between gap-4 mr-2">
-                        <p> 400 DA </p>
+                        <p> </p>
                         <p> التوصيل لمكتب شركة التوصيل</p>{" "}
                       </div>
                     </SelectItem>
                     <SelectItem value="house" className="  w-full   text-md">
                       <p className=" flex  items-center justify-center gap-4 pr-2  w-full ">
-                        <p> 600 DA </p>
+                        <p>  </p>
                         <p> التوصيل لباب للمنزل</p>
                       </p>
                     </SelectItem>
@@ -543,7 +543,7 @@ ${item.selectedAmont}")`;
                   </h2>
                   <h2 className="font-semibold text-md bg-[#efefef] w-[200px] py-2 text-center  ">
                     {" "}
-                    {deliveryPlace === "office" ? 400 : 600} DA{" "}
+                    حسب الولاية
                   </h2>
                 </div>
                 <div className="flex items-center flex-row-reverse">
@@ -554,8 +554,8 @@ ${item.selectedAmont}")`;
                   <h2 className="font-semibold text-md rounded-bl-xl bg-primary-color-100 text-white w-[200px] py-2 text-center  ">
                     {" "}
                     {deliveryPlace === "office"
-                      ? totalPrice + 400
-                      : totalPrice + 600}{" "}
+                      ? totalPrice + 0
+                      : totalPrice + 0}{" "}
                     DA
                   </h2>
                 </div>
