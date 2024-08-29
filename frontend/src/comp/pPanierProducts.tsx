@@ -112,21 +112,7 @@ const PanierProducts = () => {
                   {totalPrice} DA{" "}
                 </h2>
               </div>
-              <div className="flex items-center flex-row-reverse">
-                <h2 className="font-bold text-md w-[110px] text-[#444]  py-[18px] border text-center   border-primary-color-100 ">
-                  ثمن التوصيل
-                </h2>
-                <h2 className="font-semibold text-md bg-[#efefef] w-[200px] py-2 text-center  ">
-                  <div className="flex justify-between px-1 ">
-                    <p className="mr-1"> 400 DA </p>
-                    <p> لمكتب شركة التوصيل</p>
-                  </div>
-                  <div className="flex justify-between px-1 ">
-                    <p className="mr-1"> 600 DA </p>
-                    <p> لباب المنزل</p>
-                  </div>
-                </h2>
-              </div>
+             
               <Link to={"/cart"}>
                 <button
                   onClick={() => {
