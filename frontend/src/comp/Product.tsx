@@ -126,7 +126,7 @@ const Product = () => {
         selectedAmont: productOrder.selectedAmount,
         selectedImg: item.images.find((image) =>
   image.includes(productOrder.selectedColor)
-);
+)
       };
 
       setOnclick(false);
