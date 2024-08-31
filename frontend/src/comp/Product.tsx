@@ -201,7 +201,7 @@ const Product = () => {
         selectedSize: productOrder.selectedSize,
         price: item.price,
         selectedAmont: productOrder.selectedAmount,
-        selectedImg: item.images.filter((image) =>
+        selectedImg: item.images.find((image) =>
           image.includes(productOrder.selectedColor)
         ),
       };
