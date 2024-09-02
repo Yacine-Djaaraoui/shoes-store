@@ -38,7 +38,7 @@ const Product = () => {
   //     : "";
   const [productOrder, setProductOrder] = useState<ProductDetails>({
     product: productName,
-    selectedColor: "",
+    selectedColor: "noir",
     selectedSize: "",
     selectedAmount: 1,
   });
@@ -136,7 +136,7 @@ const Product = () => {
       setTimeout(() => {}, 500);
       setProductOrder((prevOrder) => ({
         ...prevOrder,
-        selectedColor: "",
+        // selectedColor: "",
         selectedSize: "",
       }));
       console.log(productOrder.selectedColor);
@@ -215,7 +215,7 @@ const Product = () => {
       setTimeout(() => {}, 500);
       setProductOrder((prevOrder) => ({
         ...prevOrder,
-        selectedColor: "",
+        // selectedColor: "",
         selectedSize: "",
       }));
     }
