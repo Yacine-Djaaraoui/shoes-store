@@ -104,7 +104,7 @@ app.post("/admin/login", async (req, res) => {
     }
 
     const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h", // Token expires in 1 hour
+      expiresIn: "3000", // Token expires in 1 hour
     });
 
     res.json({ token });
