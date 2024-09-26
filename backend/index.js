@@ -207,7 +207,7 @@ app.post("/upload", upload.array("productImages"), async (req, res) => {
 
 const verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
-
+// dfd
   if (!token) {
     return res.status(403).send({ message: "No token provided." });
   }
