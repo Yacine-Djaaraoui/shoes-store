@@ -104,11 +104,7 @@ app.post("/admin/login", async (req, res) => {
     }
 
     const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-<<<<<<< HEAD
-      expiresIn: "3000", // Token expires in 1 hour
-=======
-      expiresIn: 9, // Token expires in 1 hour
->>>>>>> fd1b3a70c6b2fed5c8eafbe5b8788127bcea8df2
+      expiresIn: 100, // Token expires in 1 hour
     });
 
     res.json({ token });
@@ -209,8 +205,6 @@ app.post("/upload", upload.array("productImages"), async (req, res) => {
 //   }
 // });
 
-
-
 const verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
 
@@ -265,8 +259,6 @@ app.post("/addproduct", verifyToken, async (req, res) => {
     res.status(500).send({ error: "Failed to save product" });
   }
 });
-
-
 
 // Endpoint to delete a product
 app.post("/removeproduct", async (req, res) => {

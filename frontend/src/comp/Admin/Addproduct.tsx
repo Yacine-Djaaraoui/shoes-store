@@ -113,7 +113,7 @@ const Addproduct: React.FC = () => {
       .then((data) => {
         responseData = data;
       });
-
+    const token = localStorage.getItem("adminToken");
     if (responseData.success) {
       product.images = responseData.image_urls; // Store array of image URLs
       console.log(product);
@@ -122,6 +122,7 @@ const Addproduct: React.FC = () => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          authorization: token,
         },
         body: JSON.stringify(product),
       })
