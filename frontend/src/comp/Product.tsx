@@ -38,7 +38,7 @@ const Product = () => {
   //     : "";
   const [productOrder, setProductOrder] = useState<ProductDetails>({
     product: productName,
-    selectedColor: "",
+    selectedColor: "noir",
     selectedSize: "",
     selectedAmount: 1,
   });
@@ -124,9 +124,9 @@ const Product = () => {
         selectedSize: productOrder.selectedSize,
         price: item.price,
         selectedAmont: productOrder.selectedAmount,
-        selectedImg: item.images.filter((image) =>
-          image.includes(productOrder.selectedColor)
-        ),
+        selectedImg: item.images.find((image) =>
+  image.includes(productOrder.selectedColor)
+)
       };
 
       setOnclick(false);
@@ -136,7 +136,7 @@ const Product = () => {
       setTimeout(() => {}, 500);
       setProductOrder((prevOrder) => ({
         ...prevOrder,
-        selectedColor: "",
+        // selectedColor: "",
         selectedSize: "",
       }));
       console.log(productOrder.selectedColor);
@@ -201,7 +201,7 @@ const Product = () => {
         selectedSize: productOrder.selectedSize,
         price: item.price,
         selectedAmont: productOrder.selectedAmount,
-        selectedImg: item.images.filter((image) =>
+        selectedImg: item.images.find((image) =>
           image.includes(productOrder.selectedColor)
         ),
       };
@@ -215,7 +215,7 @@ const Product = () => {
       setTimeout(() => {}, 500);
       setProductOrder((prevOrder) => ({
         ...prevOrder,
-        selectedColor: "",
+        // selectedColor: "",
         selectedSize: "",
       }));
     }
