@@ -168,7 +168,64 @@ app.post("/upload", upload.array("productImages"), async (req, res) => {
 });
 
 // Endpoint to add a product
-app.post("/addproduct", async (req, res) => {
+// app.post("/addproduct", async (req, res) => {
+//   let products = await Product.find({});
+//   let id;
+//   if (products.length > 0) {
+//     let last_product_array = products.slice(-1);
+//     let last_product = last_product_array[0];
+//     id = last_product.id + 1;
+//   } else {
+//     id = 1;
+//   }
+
+//   const product = new Product({
+//     id: id,
+//     name: req.body.name,
+//     gender: req.body.gender,
+//     price: req.body.price,
+//     oldPrice: req.body.oldPrice,
+//     images: req.body.images, // Assuming `image_urls` is an array of image URLs sent from the client
+//     category: req.body.category, // Assuming `image_urls` is an array of image URLs sent from the client
+//     sizes: req.body.sizes, // Assuming `image_urls` is an array of image URLs sent from the client
+//     colors: req.body.colors, // Assuming `image_urls` is an array of image URLs sent from the client
+//     discription: req.body.discription, // Assuming `image_urls` is an array of image URLs sent from the client
+//     specialOffer: req.body.specialOffer, // Assuming `image_urls` is an array of image URLs sent from the client
+//     amount: req.body.amount, // Assuming `image_urls` is an array of image URLs sent from the client
+//     showingOnTheTop: req.body.showingOnTheTop, // Assuming `image_urls` is an array of image URLs sent from the client
+//   });
+
+//   try {
+//     await product.save();
+//     console.log("Product saved:", product);
+//     res.json({ success: true, name: req.body.name });
+//   } catch (err) {
+//     console.error("Error saving product:", err.message);
+//     res.status(500).send({ error: "Failed to save product" });
+//   }
+// });
+
+
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers["authorization"];
+
+  if (!token) {
+    return res.status(403).send({ message: "No token provided." });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "Unauthorized!" });
+    }
+
+    // If the token is valid, store the decoded user id in the request object
+    req.userId = decoded.id;
+    next();
+  });
+};
+
+app.post("/addproduct", verifyToken, async (req, res) => {
   let products = await Product.find({});
   let id;
   if (products.length > 0) {
@@ -185,14 +242,14 @@ app.post("/addproduct", async (req, res) => {
     gender: req.body.gender,
     price: req.body.price,
     oldPrice: req.body.oldPrice,
-    images: req.body.images, // Assuming `image_urls` is an array of image URLs sent from the client
-    category: req.body.category, // Assuming `image_urls` is an array of image URLs sent from the client
-    sizes: req.body.sizes, // Assuming `image_urls` is an array of image URLs sent from the client
-    colors: req.body.colors, // Assuming `image_urls` is an array of image URLs sent from the client
-    discription: req.body.discription, // Assuming `image_urls` is an array of image URLs sent from the client
-    specialOffer: req.body.specialOffer, // Assuming `image_urls` is an array of image URLs sent from the client
-    amount: req.body.amount, // Assuming `image_urls` is an array of image URLs sent from the client
-    showingOnTheTop: req.body.showingOnTheTop, // Assuming `image_urls` is an array of image URLs sent from the client
+    images: req.body.images,
+    category: req.body.category,
+    sizes: req.body.sizes,
+    colors: req.body.colors,
+    discription: req.body.discription,
+    specialOffer: req.body.specialOffer,
+    amount: req.body.amount,
+    showingOnTheTop: req.body.showingOnTheTop,
   });
 
   try {
@@ -204,6 +261,9 @@ app.post("/addproduct", async (req, res) => {
     res.status(500).send({ error: "Failed to save product" });
   }
 });
+
+
+
 // Endpoint to delete a product
 app.post("/removeproduct", async (req, res) => {
   try {
