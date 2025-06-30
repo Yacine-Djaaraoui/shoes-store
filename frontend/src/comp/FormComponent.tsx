@@ -1,5 +1,3 @@
-// FormComponent.tsx
-
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -11,10 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-interface Location {
-  id: number;
-  name: string;
-}
 import { AxiosRequestConfig } from "axios";
 import {
   Dialog,
@@ -26,11 +20,15 @@ import {
   DialogTrigger,
 } from "../components/ui/dialog";
 import Logo from "../../public/images/Logoo.png";
-import PanierProducts from "./pPanierProducts";
 import { ShopContext } from "./ShopContext";
-import { Divide } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+
+interface Location {
+  id: number;
+  name: string;
+}
+
 const FormComponent = () => {
   const locations: Location[] = [
     { id: 1, name: "Adrar" },
@@ -89,9 +87,10 @@ const FormComponent = () => {
     { id: 54, name: "In Guezzam" },
     { id: 55, name: "Touggourt" },
     { id: 56, name: "Djanet" },
-    { id: 57, name: "El M’Ghaier" },
+    { id: 57, name: "El M'Ghaier" },
     { id: 58, name: "El Meniaa" },
   ];
+
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [deliveryPlace, setDeliveryPlace] = useState("office");
@@ -108,9 +107,12 @@ const FormComponent = () => {
   const [validnumber, setvalidnumber] = useState(true);
   const [enterwilaya, seenterwilaya] = useState(true);
   const [enterbaladya, seenterbaladya] = useState(true);
+  const [loadingCities, setLoadingCities] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   useEffect(() => {
     if (!enterwilaya || !enterbaladya) {
       window.scrollTo({
@@ -118,27 +120,40 @@ const FormComponent = () => {
         behavior: "smooth",
       });
     }
-  }, []);
+  }, [enterwilaya, enterbaladya]);
+
   const handleScroll = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
-  const fetchCities = async () => {
-    // if (wilaya.name === "") return;
 
+  const fetchCities = async () => {
+    if (!wilaya.id) return;
+    
+    setLoadingCities(true);
+    const source = axios.CancelToken.source();
+    
     try {
       const response = await axios.get(
         `https://shoes-store-api.vercel.app/algerian-cities/${
           wilaya.id - 10 < 0 ? "0" + wilaya.id : wilaya.id
-        }`
+        }`,
+        { cancelToken: source.token }
       );
       setBaladya(response.data);
       setError(null);
     } catch (err) {
-      setError("Error fetching cities");
+      if (!axios.isCancel(err)) {
+        setError("Error fetching cities");
+        setBaladya([]);
+      }
+    } finally {
+      setLoadingCities(false);
     }
+
+    return () => source.cancel();
   };
 
   useEffect(() => {
@@ -147,23 +162,17 @@ const FormComponent = () => {
         fetchCities();
       }, 100);
 
-      return () => clearTimeout(timer); // Cleanup the timer if the component unmounts or wilaya changes
+      return () => clearTimeout(timer);
     }
-  });
-  // useEffect(() => {
-  //   if (isSubmitSuccessfully) {
-  //     const timer = setTimeout(() => {
-  //      setIsSubmitSuccessfully(true)
-  //     }, 100);
+  }, [wilaya.id]);
 
-  //     return () => clearTimeout(timer); // Cleanup the timer if the component unmounts or wilaya changes
-  //   }
-  // });
   const handleValueChange = (value) => {
     const selectedItem = JSON.parse(value);
     setWilaya(selectedItem);
+    setSelectedBaladya(""); // Reset baladya when wilaya changes
     seenterwilaya(true);
   };
+
   const handlechangebaladya = (value) => {
     setSelectedBaladya(value);
     seenterbaladya(true);
@@ -172,9 +181,9 @@ const FormComponent = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Replace with your Google Sheets API endpoint
     const endpoint =
       "https://sheet.best/api/sheets/59fd68b9-1eba-43b0-8427-2df892786071";
+      
     if (
       name === "" ||
       wilaya.name === "" ||
@@ -185,86 +194,78 @@ const FormComponent = () => {
       setTimeout(() => {
         setIsSubmitSuccessfully(false);
       }, 0);
-      {
-        !patterns.some((pattern) => pattern.test(phoneNumber))
-          ? setvalidnumber(false)
-          : setvalidnumber(true);
+      
+      if (!patterns.some((pattern) => pattern.test(phoneNumber))) {
+        setvalidnumber(false);
+      } else {
+        setvalidnumber(true);
       }
-      {
-        wilaya.name === "" ? seenterwilaya(false) : seenterwilaya(true);
+      
+      if (wilaya.name === "") {
+        seenterwilaya(false);
+      } else {
+        seenterwilaya(true);
       }
-      {
-        selectedBaladya === "" ? seenterbaladya(false) : seenterbaladya(true);
+      
+      if (selectedBaladya === "") {
+        seenterbaladya(false);
+      } else {
+        seenterbaladya(true);
       }
-    } else {
-      //   // Optionally, you could show an error or prevent invalid input
-      // }// Validate input value against patterns
-      // if (patterns.some((pattern) => pattern.test(value))) {
-      //   setvalidnumber(true);
-      // }
-      //  else {
-      //   // Optionally, you could show an error or prevent invalid input
-      // }
+      return;
+    }
 
-      try {
-        const response = await axios.post(endpoint, {
-          name: name,
-          phoneNumber: "0" + phoneNumber,
-          deliveryPlace: deliveryPlace,
-          wilaya: wilaya.name,
-          baladya: selectedBaladya,
-          notes: notes,
-          price: `${totalPrice}
+    try {
+      const response = await axios.post(endpoint, {
+        name: name,
+        phoneNumber: "0" + phoneNumber,
+        deliveryPlace: deliveryPlace,
+        wilaya: wilaya.name,
+        baladya: selectedBaladya,
+        notes: notes,
+        price: `${totalPrice}
 ${deliveryPlace === "office" ? totalPrice + 400 : totalPrice + 600}`,
 
-          ...PanierItems.reduce((acc, item, index) => {
-            acc[
-              `product ${index + 1}`
-            ] = `=LIEN_HYPERTEXTE("${item.selectedImg}"; "${item.name} 
+        ...PanierItems.reduce((acc, item, index) => {
+          acc[
+            `product ${index + 1}`
+          ] = `=LIEN_HYPERTEXTE("${item.selectedImg}"; "${item.name} 
 ${item.selectedColor}
 ${item.selectedSize}
 ${item.selectedAmont}")`;
-            // acc[`images`] =; // Send the raw URL
-
-            return acc;
-          }, {}),
-        });
-        setTimeout(() => {
-          setIsSubmitSuccessfully(true);
-        }, 0);
-        console.log("Form data submitted successfully:", response.data);
-        // Optionally, reset form fields after successful submission
-        // setName("");
-        // setPhoneNumber("");
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        setIsSubmitSuccessfully(false);
-      }
+          return acc;
+        }, {}),
+      });
+      
+      setTimeout(() => {
+        setIsSubmitSuccessfully(true);
+      }, 0);
+      console.log("Form data submitted successfully:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setIsSubmitSuccessfully(false);
     }
   };
 
-  // Regular expression patterns
   const patterns = [
-    /^0[567]\d{8}$/, // Matches: 05XXXXXXXX, 06XXXXXXXX, 07XXXXXXXX
-    /^(213[567]\d{8})$/, // Matches: 2137XXXXXXXX, 2135XXXXXXXX, 2136XXXXXXXX
-    /^\+213[567]\d{8}$/, // Matches: +2137XXXXXXXX, +2135XXXXXXXX, +2136XXXXXXXX
+    /^0[567]\d{8}$/,
+    /^(213[567]\d{8})$/,
+    /^\+213[567]\d{8}$/,
   ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPhoneNumber(value);
 
-    // Validate input value against patterns
     if (patterns.some((pattern) => pattern.test(value))) {
       setvalidnumber(true);
     }
-    //  else {
-    //   // Optionally, you could show an error or prevent invalid input
-    // }
   };
+
   const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
     setIsSubmitSuccessfully(false);
   };
+
   const { PanierItems } = useContext(ShopContext);
   const { removeFromPanier } = useContext(ShopContext);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -286,10 +287,10 @@ ${item.selectedAmont}")`;
       {PanierItems.length !== 0 ? (
         <form
           onSubmit={handleSubmit}
-          className={`  flex flex-col md:flex-row  justify-between md:items-start container pt-6`}
+          className={`flex flex-col md:flex-row justify-between md:items-start container pt-6`}
         >
           <div className="md:w-[50%]">
-            <label className=" w-full ">
+            <label className="w-full">
               <h2 className="text-right font-bold mb-2">الاسم و اللقب</h2>
               <input
                 type="text"
@@ -297,69 +298,51 @@ ${item.selectedAmont}")`;
                 onChange={(e) => setName(e.target.value)}
                 onInvalid={handleInvalid}
                 required
-                className="w-full bg-[#efefef] text-[#444] py-2 outline-none text-right px-2 font-semibold text-lg "
+                className="w-full bg-[#efefef] text-[#444] py-2 outline-none text-right px-2 font-semibold text-lg"
                 placeholder="الاسم و اللقب"
               />
             </label>
-            {/* <label>
-        <input
-          type="number"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-          required
-          className="w-full bg-[#efefef] text-[#444] py-2 outline-none text-right px-2 font-semibold text-lg "
-          placeholder=" رفم الهاتف "
-        />
-      </label> */}
             <br />
             <label className="w-full">
-              <h2 className="text-right font-bold mb-2">رقم الهاتف </h2>
+              <h2 className="text-right font-bold mb-2">رقم الهاتف</h2>
               <input
                 type="tel"
                 value={phoneNumber}
                 onChange={handleChange}
                 onInvalid={handleInvalid}
                 required
-                className="w-full bg-[#efefef] text-[#444] py-2 outline-none text-right px-2 font-semibold text-lg "
-                placeholder=" رفم الهاتف "
+                className="w-full bg-[#efefef] text-[#444] py-2 outline-none text-right px-2 font-semibold text-lg"
+                placeholder="رقم الهاتف"
               />
-              <p
-                className={`${
-                  validnumber ? "hidden" : "none"
-                } text-right text-red-700`}
-              >
-                {" "}
-                رقم هاتف غير صحيح{" "}
-              </p>
+              {!validnumber && (
+                <p className="text-right text-red-700">
+                  رقم هاتف غير صحيح
+                </p>
+              )}
             </label>
             <br />
-            <div className=" w-full ">
+            <div className="w-full">
               <h2 className="text-right font-bold mb-2">التوصيل</h2>
-
               <Select
                 value={deliveryPlace}
                 defaultValue={deliveryPlace}
                 onValueChange={setDeliveryPlace}
               >
-                <SelectTrigger className="w-full font-semibold bg-[#efefef] h-10 container ">
+                <SelectTrigger className="w-full font-semibold bg-[#efefef] h-10 container">
                   <SelectValue placeholder="التوصيل" className="w-full" />
                 </SelectTrigger>
                 <SelectContent className="w-full">
-                  <SelectGroup className="w-full ">
-                    {/* <SelectLabel>Fruits</SelectLabel> */}
-                    <SelectItem
-                      value="office"
-                      className="  w-full  pr-2 text-md"
-                    >
+                  <SelectGroup className="w-full">
+                    <SelectItem value="office" className="w-full pr-2 text-md">
                       <div className="flex items-center w-full justify-between gap-4 mr-2">
                         <p> </p>
-                        <p> التوصيل لمكتب شركة التوصيل</p>{" "}
+                        <p>التوصيل لمكتب شركة التوصيل</p>
                       </div>
                     </SelectItem>
-                    <SelectItem value="house" className="  w-full   text-md">
-                      <p className=" flex  items-center justify-center gap-4 pr-2  w-full ">
-                        <p>  </p>
-                        <p> التوصيل لباب للمنزل</p>
+                    <SelectItem value="house" className="w-full text-md">
+                      <p className="flex items-center justify-center gap-4 pr-2 w-full">
+                        <p> </p>
+                        <p>التوصيل لباب للمنزل</p>
                       </p>
                     </SelectItem>
                   </SelectGroup>
@@ -367,19 +350,17 @@ ${item.selectedAmont}")`;
               </Select>
             </div>
             <br />
-            <div className=" w-full ">
-              <h2 className="text-right font-bold mb-2">الولاية </h2>
-
+            <div className="w-full">
+              <h2 className="text-right font-bold mb-2">الولاية</h2>
               <Select
                 value={JSON.stringify(wilaya)}
                 onValueChange={handleValueChange}
               >
-                <SelectTrigger className="w-full font-semibold bg-[#efefef] h-10 container ">
+                <SelectTrigger className="w-full font-semibold bg-[#efefef] h-10 container">
                   <SelectValue placeholder="اختر الولاية" className="w-full" />
                 </SelectTrigger>
-                <SelectContent className="w-full ">
-                  <SelectGroup className="w-full ">
-                    {/* <SelectLabel>Fruits</SelectLabel> */}
+                <SelectContent className="w-full">
+                  <SelectGroup className="w-full">
                     {locations.map((item) => (
                       <SelectItem
                         key={item.id}
@@ -387,7 +368,6 @@ ${item.selectedAmont}")`;
                         className=""
                       >
                         <p className="pr-2">
-                          {" "}
                           {item.name} - {item.id}
                         </p>
                       </SelectItem>
@@ -395,126 +375,115 @@ ${item.selectedAmont}")`;
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <p
-                className={`${
-                  enterwilaya ? "hidden" : "none"
-                } text-right text-red-700`}
-              >
-                {" "}
-                اختر الولاية من فضلك{" "}
-              </p>
+              {!enterwilaya && (
+                <p className="text-right text-red-700">
+                  اختر الولاية من فضلك
+                </p>
+              )}
             </div>
             <br />
-            <div className=" w-full ">
-              <h2 className="text-right font-bold mb-2">البلدية </h2>
-
+            <div className="w-full">
+              <h2 className="text-right font-bold mb-2">البلدية</h2>
               <Select
                 value={selectedBaladya}
                 onValueChange={handlechangebaladya}
+                disabled={!wilaya.id || loadingCities}
               >
-                <SelectTrigger className="w-full font-semibold bg-[#efefef] h-10 container ">
-                  <SelectValue placeholder="" className="w-full" />
+                <SelectTrigger className="w-full font-semibold bg-[#efefef] h-10 container">
+                  <SelectValue 
+                    placeholder={loadingCities ? "جاري التحميل..." : "اختر البلدية"} 
+                    className="w-full" 
+                  />
                 </SelectTrigger>
-                <SelectContent className="w-full ">
-                  <SelectGroup className="w-full ">
-                    {/* <SelectLabel>Fruits</SelectLabel> */}
+                <SelectContent className="w-full">
+                  <SelectGroup className="w-full">
                     {baladya.map((item) => (
                       <SelectItem
                         key={item.id}
                         value={item.commune_name_ascii}
                         className=""
                       >
-                        <p className="pr-2"> {item.commune_name_ascii}</p>
+                        <p className="pr-2">{item.commune_name_ascii}</p>
                       </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <p
-                className={`${
-                  enterbaladya ? "hidden" : "none"
-                } text-right text-red-700`}
-              >
-                {" "}
-                اختر البلدية من فضلك{" "}
-              </p>
+              {!enterbaladya && (
+                <p className="text-right text-red-700">
+                  اختر البلدية من فضلك
+                </p>
+              )}
             </div>
             <br />
             <div className="w-full">
-              <h2 className="text-right font-bold mb-2">ملاحظات </h2>
-
+              <h2 className="text-right font-bold mb-2">ملاحظات</h2>
               <textarea
-                className="px-3 text-right border bg-[#efefef] outline-none  py-2 w-full"
+                className="px-3 text-right border bg-[#efefef] outline-none py-2 w-full"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 name="discription"
-                placeholder="ملاحظات "
-                rows={4} // Adjust the number of rows as needed
+                placeholder="ملاحظات"
+                rows={4}
               />
             </div>
             <div className="max-md:hidden">
-              {" "}
               <Dialog>
                 <DialogTrigger asChild>
                   <button
                     type="submit"
-                    className=" mt-1 w-full h-10  sm:h-10  border-primary-color-100  bg-button-color-100 text-white font-bold  text-md   hover:bg-primary-color-100  px-6 rounded-xl"
+                    className="mt-1 w-full h-10 sm:h-10 border-primary-color-100 bg-button-color-100 text-white font-bold text-md hover:bg-primary-color-100 px-6 rounded-xl"
                   >
-                    تأكيد الطلب{" "}
+                    تأكيد الطلب
                   </button>
                 </DialogTrigger>
-                {isSubmitSuccessfully ? (
-                  <DialogContent className="sm:max-w-[425px] ">
-                    <DialogHeader className="">
+                {isSubmitSuccessfully && (
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
                       <DialogTitle className="flex items-center justify-center w-full">
-                        <img src={Logo} alt="" className="h-[120px] " />
+                        <img src={Logo} alt="" className="h-[120px]" />
                       </DialogTitle>
-                      <DialogDescription className="text-center  text-black font-semibold ">
-                        تم ارسال طلب المنتج بنجاح نشكرك على ثقتك بمتجرنا ، سيتم
+                      <DialogDescription className="text-center text-black font-semibold">
+                        تم ارسال طلب المنتج بنجاح نشكرك على ثقتك بمتجرنا، سيتم
                         التواصل معك في أقل من 24 ساعة لتأكيد الطلبية
                       </DialogDescription>
                     </DialogHeader>
-
-                    <DialogFooter className="h-8"> </DialogFooter>
+                    <DialogFooter className="h-8"></DialogFooter>
                   </DialogContent>
-                ) : null}
+                )}
               </Dialog>
             </div>
           </div>
-          <div className="   pb-6 mt-3 md:w-[43%]">
-            <div className="flex items-center justify-center pt-4  text-lg flex-row-reverse">
-              <h2 className="font-bold text-black text-right text-2xl  ml-2">
-                طلبك{" "}
+          <div className="pb-6 mt-3 md:w-[43%]">
+            <div className="flex items-center justify-center pt-4 text-lg flex-row-reverse">
+              <h2 className="font-bold text-black text-right text-2xl ml-2">
+                طلبك
               </h2>
             </div>
-            {/* <div className="w-full h-[1.5px] bg-black "></div> */}
-            <ul className="w-[100%] mt-4 flex xl:justify-center items-center  flex-col justify-around px-0">
+            <ul className="w-[100%] mt-4 flex xl:justify-center items-center flex-col justify-around px-0">
               {PanierItems.map((item) => (
                 <li
                   key={item.id}
                   className="bg-[#efefef] p-1 mb-2 rounded-xl flex flex-row-reverse items-center justify-between w-full"
                 >
-                  {/* {img(item.images)} */}
-                  <div className="flex flex-row-reverse  items-center">
+                  <div className="flex flex-row-reverse items-center">
                     <img
                       src={item.selectedImg}
                       alt=""
-                      className="h-[120px] w-[120px] ml-2 "
+                      className="h-[120px] w-[120px] ml-2"
                     />
                     <div className="text-[#444] text-sm">
-                      <p> {item.name} </p>
+                      <p>{item.name}</p>
                       <p>
-                        {" "}
                         {Number(item.price) * Number(item.selectedAmont)} DA
                       </p>
-                      <p> couleur : {item.selectedColor} </p>
-                      <p> pointure : {item.selectedSize} </p>
+                      <p>couleur: {item.selectedColor}</p>
+                      <p>pointure: {item.selectedSize}</p>
                     </div>
                   </div>
                   <div className="flex items-center flex-row-reverse gap-3">
-                    <p className="bg-grey px-1.5 py-0 ">
-                      {" "}
-                      {item.selectedAmont}{" "}
+                    <p className="bg-grey px-1.5 py-0">
+                      {item.selectedAmont}
                     </p>
                     <FontAwesomeIcon
                       icon={faXmark}
@@ -526,75 +495,68 @@ ${item.selectedAmont}")`;
               ))}
             </ul>
             <div className="mt-2 flex flex-col justify-center items-center">
-              <h2 className="font-bold text-lg mb-2 "> الدفع عند الاستلام </h2>
-              <div className="">
+              <h2 className="font-bold text-lg mb-2">الدفع عند الاستلام</h2>
+              <div>
                 <div className="flex items-center flex-row-reverse">
-                  <h2 className="font-bold text-md w-[140px] text-[#444]  py-2 border text-center   border-primary-color-100 border-b-0 rounded-tr-xl">
+                  <h2 className="font-bold text-md w-[140px] text-[#444] py-2 border text-center border-primary-color-100 border-b-0 rounded-tr-xl">
                     ثمن الطلبية
                   </h2>
-                  <h2 className="font-semibold rounded-tl-xl text-md bg-[#efefef] w-[200px] py-2 text-center  ">
-                    {" "}
-                    {totalPrice} DA{" "}
+                  <h2 className="font-semibold rounded-tl-xl text-md bg-[#efefef] w-[200px] py-2 text-center">
+                    {totalPrice} DA
                   </h2>
                 </div>
                 <div className="flex items-center flex-row-reverse">
-                  <h2 className="font-bold text-md w-[140px] text-[#444]  py-2 border text-center   border-primary-color-100 border-b-0">
+                  <h2 className="font-bold text-md w-[140px] text-[#444] py-2 border text-center border-primary-color-100 border-b-0">
                     ثمن التوصيل
                   </h2>
-                  <h2 className="font-semibold text-md bg-[#efefef] w-[200px] py-2 text-center  ">
-                    {" "}
+                  <h2 className="font-semibold text-md bg-[#efefef] w-[200px] py-2 text-center">
                     حسب الولاية
                   </h2>
                 </div>
                 <div className="flex items-center flex-row-reverse">
-                  <h2 className="font-bold text-md w-[140px] text-[#444]   py-2 border text-center   border-primary-color-100 rounded-br-xl">
-                    {" "}
+                  <h2 className="font-bold text-md w-[140px] text-[#444] py-2 border text-center border-primary-color-100 rounded-br-xl">
                     المجموع
                   </h2>
-                  <h2 className="font-semibold text-md rounded-bl-xl bg-primary-color-100 text-white w-[200px] py-2 text-center  ">
-                    {" "}
+                  <h2 className="font-semibold text-md rounded-bl-xl bg-primary-color-100 text-white w-[200px] py-2 text-center">
                     {deliveryPlace === "office"
                       ? totalPrice + 0
-                      : totalPrice + 0}{" "}
-                    DA
+                      : totalPrice + 0} DA
                   </h2>
                 </div>
               </div>
             </div>
           </div>
           <div className="md:hidden">
-            {" "}
             <Dialog>
               <DialogTrigger asChild>
                 <button
                   type="submit"
-                  className=" mt-1 w-full h-10  sm:h-10  border-primary-color-100  bg-button-color-100 text-white font-bold  text-md   hover:bg-primary-color-100  px-6 rounded-xl"
+                  className="mt-1 w-full h-10 sm:h-10 border-primary-color-100 bg-button-color-100 text-white font-bold text-md hover:bg-primary-color-100 px-6 rounded-xl"
                 >
-                  تأكيد الطلب{" "}
+                  تأكيد الطلب
                 </button>
               </DialogTrigger>
-              {isSubmitSuccessfully ? (
-                <DialogContent className="sm:max-w-[425px] ">
-                  <DialogHeader className="">
+              {isSubmitSuccessfully && (
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
                     <DialogTitle className="flex items-center justify-center w-full">
-                      <img src={Logo} alt="" className="h-[120px] " />
+                      <img src={Logo} alt="" className="h-[120px]" />
                     </DialogTitle>
-                    <DialogDescription className="text-center  text-black font-semibold ">
-                      تم ارسال طلب المنتج بنجاح نشكرك على ثقتك بمتجرنا ، سيتم
+                    <DialogDescription className="text-center text-black font-semibold">
+                      تم ارسال طلب المنتج بنجاح نشكرك على ثقتك بمتجرنا، سيتم
                       التواصل معك في أقل من 24 ساعة لتأكيد الطلبية
                     </DialogDescription>
                   </DialogHeader>
-
-                  <DialogFooter className="h-8"> </DialogFooter>
+                  <DialogFooter className="h-8"></DialogFooter>
                 </DialogContent>
-              ) : null}
+              )}
             </Dialog>
           </div>
         </form>
       ) : (
-        <div className="flex justify-center  flex-col items-center py-6 container">
+        <div className="flex justify-center flex-col items-center py-6 container">
           <svg
-            className={` h-32 rounded-full p-[0px] text-black `}
+            className="h-32 rounded-full p-[0px] text-black"
             viewBox="-0.5 0 25 25"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -622,7 +584,7 @@ ${item.selectedAmont}")`;
               strokeLinejoin="round"
             />
           </svg>
-          <h2 className="text-[#666] font-bold text-lg ">
+          <h2 className="text-[#666] font-bold text-lg">
             سلة التسوق الخاصة بك فارغة
           </h2>
         </div>
