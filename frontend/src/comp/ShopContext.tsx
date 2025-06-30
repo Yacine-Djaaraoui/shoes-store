@@ -1,21 +1,13 @@
-import React, { createContext, ReactNode, useEffect } from "react";
-import { useState } from "react";
-// Define the shape of the context value
+import React, { createContext, ReactNode, useEffect, useState } from "react";
 
-// Create the context with an initial value of null
+// Define the shape of the context value (optional for better typing later)
 export const ShopContext = createContext(null);
 
 // Define the props for the provider component
 interface ShopContextProviderProps {
   children: ReactNode;
 }
-interface ShopContextType {
-  addToFavorites: (product) => void;
-  // : typeof AllProducts;
-  removeFromFavorites: (productId: number) => void;
-}
 
-// Define the context provider component
 const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   children,
 }) => {
@@ -27,35 +19,51 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   const [imgName, setImgName] = useState("");
   const [someCondition, setsomeCondition] = useState(false);
 
+  // ✅ Fix: Fetch only once on initial mount
   useEffect(() => {
-    fetch("https://shoes-store-api.vercel.app/allproducts")
-      .then((response) => response.json())
-      .then((data) => setAllproducts(data));
-  });
-  // Function to add an item to the favorites list
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://shoes-store-api.vercel.app/allproducts");
+        const data = await response.json();
+        setAllproducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []); // ✅ empty dependency array = run once
+
+  // Add to favorites
   const addToFavorites = (product) => {
     setFavoriteItems((prevItems) => [...prevItems, product]);
   };
+
+  // Remove from favorites
   const removeFromFavorites = (productId: number) => {
     setFavoriteItems((prevItems) =>
       prevItems.filter((item) => item.id !== productId)
     );
   };
+
+  // Add to cart
   const addToPanier = (product: any) => {
     setPanierItems((prevItems) => [...prevItems, product]);
   };
+
+  // Remove from cart
   const removeFromPanier = (product: any) => {
     setPanierItems((prevItems) =>
       prevItems.filter(
         (item) =>
-          item.name !== item.name ||
+          item.name !== product.name ||
           item.selectedSize !== product.selectedSize ||
           item.selectedColor !== product.selectedColor
       )
     );
   };
 
-  // The value that will be provided to consuming components
+  // All shared values
   const contextValue = {
     AllProducts,
     favoriteItems,
@@ -79,5 +87,4 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   );
 };
 
-// Export the provider component as the default export
 export default ShopContextProvider;
